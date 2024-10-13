@@ -6,14 +6,23 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "orderservice",
-          "Port": 8080
+          "Port": 5001
         }
       ],
-      "UpstreamPathTemplate": "/orders",
+      "UpstreamPathTemplate": "/api/orders",
       "UpstreamHttpMethod": [ "Get", "Post" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/orders/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "orderservice",
+          "Port": 5001
+        }
+      ],
+      "UpstreamPathTemplate": "/api/orders/{id}",
+      "UpstreamHttpMethod": [ "Get", "Put", "Delete" ]
     }
-  ],
-  "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:8080"
-  }
+  ]
 }
