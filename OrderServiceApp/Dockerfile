@@ -15,6 +15,6 @@ WORKDIR /app
 
 COPY --from=build /publish .
 
-EXPOSE 8080
+EXPOSE 5001
 
 ENTRYPOINT ["dotnet", "OrderServiceApp.dll"]

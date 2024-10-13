@@ -30,6 +30,8 @@ services:
       - DB_DATABASE=harddb
       - DB_USERNAME=gorbiga
       - DB_PASSWORD=12345679
+    command: >
+      sh -c "dotnet ef database update && dotnet OrderServiceApp.dll"
 
   postgres:
     image: postgres:latest
