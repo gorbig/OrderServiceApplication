@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  api_gateway:
+    build:
+      context: ./APIGateWay
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - orderservice
+      - postgres
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=postgres;Database=harddb;Username=gorbiga;Password=12345679
+    volumes:
+      - ./APIGateWay/ocelot.json:/app/ocelot.json
+
+  orderservice:
+    build:
+      context: ./OrderServiceApp
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5001"
+    depends_on:
+      - postgres
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=harddb;Username=gorbiga;Password=12345679  # Обратите внимание на Port=5432
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: harddb
+      POSTGRES_USER: gorbiga
+      POSTGRES_PASSWORD: 12345679
+    ports:
+      - "5433:5432"  # Проброс порта 5433 на 5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
