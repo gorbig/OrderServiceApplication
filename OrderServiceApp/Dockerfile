@@ -2,18 +2,18 @@
 
 WORKDIR /app
 
-COPY OrderServiceApp.csproj ./
+COPY *.csproj ./
 RUN dotnet restore
 
 COPY . ./
 
-RUN dotnet publish -c Release -o /publish
+RUN dotnet publish -c Release -o /out
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 
 WORKDIR /app
 
-COPY --from=build /publish .
+COPY --from=build /out .
 
 EXPOSE 5001
 

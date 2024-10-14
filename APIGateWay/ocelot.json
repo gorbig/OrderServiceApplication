@@ -10,7 +10,14 @@
         }
       ],
       "UpstreamPathTemplate": "/api/orders",
-      "UpstreamHttpMethod": [ "Get", "Post" ]
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "1m",
+        "PeriodTimespan": 1,
+        "Limit": 10
+      }
     },
     {
       "DownstreamPathTemplate": "/api/orders/{id}",
@@ -22,7 +29,14 @@
         }
       ],
       "UpstreamPathTemplate": "/api/orders/{id}",
-      "UpstreamHttpMethod": [ "Get", "Put", "Delete" ]
+      "UpstreamHttpMethod": [ "Get", "Put", "Delete" ],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "1m",
+        "PeriodTimespan": 1,
+        "Limit": 10
+      }
     }
   ]
 }
