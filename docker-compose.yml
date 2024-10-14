@@ -12,6 +12,7 @@ services:
       - postgres
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=postgres;Database=harddb;Username=gorbiga;Password=12345679
     volumes:
       - ./APIGateWay/ocelot.json:/app/ocelot.json
 
@@ -25,13 +26,7 @@ services:
       - postgres
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_DATABASE=harddb
-      - DB_USERNAME=gorbiga
-      - DB_PASSWORD=12345679
-    command: >
-      sh -c "dotnet ef database update && dotnet OrderServiceApp.dll"
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=harddb;Username=gorbiga;Password=12345679  # Обратите внимание на Port=5432
 
   postgres:
     image: postgres:latest
@@ -40,7 +35,7 @@ services:
       POSTGRES_USER: gorbiga
       POSTGRES_PASSWORD: 12345679
     ports:
-      - "5433:5432"
+      - "5433:5432"  # Проброс порта 5433 на 5432
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
