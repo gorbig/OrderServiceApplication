@@ -15,6 +15,8 @@ services:
       - ConnectionStrings__DefaultConnection=Host=postgres;Database=harddb;Username=gorbiga;Password=12345679
     volumes:
       - ./APIGateWay/ocelot.json:/app/ocelot.json
+    networks:
+      - order-network
 
   orderservice:
     build:
@@ -26,7 +28,9 @@ services:
       - postgres
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=harddb;Username=gorbiga;Password=12345679  # Обратите внимание на Port=5432
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=harddb;Username=gorbiga;Password=12345679
+    networks:
+      - order-network
 
   postgres:
     image: postgres:latest
@@ -35,9 +39,23 @@ services:
       POSTGRES_USER: gorbiga
       POSTGRES_PASSWORD: 12345679
     ports:
-      - "5433:5432"  # Проброс порта 5433 на 5432
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - order-network
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - order-network
 
 volumes:
   postgres_data:
+
+networks:
+  order-network:
+    driver: bridge
