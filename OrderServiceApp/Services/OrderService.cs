@@ -100,8 +100,8 @@ public class OrderService : IOrderService
         }
     }
 
-    public Task<bool> OrderExistsAsync(int id)
+    public async Task<bool> OrderExistsAsync(int id)
     {
-        throw new NotImplementedException();
+        return await _orderRepository.ExistsAsync(id);
     }
 }
